@@ -16,7 +16,12 @@ function App() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { isFetching, error, fetchedData: userPlaces } = useFetch(fetchUserPlaces, []);
+  const {
+    isFetching,
+    error,
+    fetchedData: userPlaces,
+    setFetchedData: setUserPlaces,
+  } = useFetch(fetchUserPlaces, []);
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -27,7 +32,7 @@ function App() {
     setModalIsOpen(false);
   }
 
-  /* async function handleSelectPlace(selectedPlace) {
+  async function handleSelectPlace(selectedPlace) {
     // await updateUserPlaces([selectedPlace, ...userPlaces]);
 
     setUserPlaces((prevPickedPlaces) => {
@@ -71,8 +76,8 @@ function App() {
 
       setModalIsOpen(false);
     },
-    [userPlaces]
-  ); */
+    [userPlaces, setUserPlaces]
+  );
 
   function handleError() {
     setErrorUpdatingPlaces(null);
@@ -93,7 +98,7 @@ function App() {
       <Modal open={modalIsOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
-          /* onConfirm={handleRemovePlace} */
+          onConfirm={handleRemovePlace}
         />
       </Modal>
 
@@ -118,9 +123,7 @@ function App() {
           />
         )}
 
-        <AvailablePlaces 
-        /* onSelectPlace={handleSelectPlace}  */
-        />
+        <AvailablePlaces onSelectPlace={handleSelectPlace} />
       </main>
     </>
   );
